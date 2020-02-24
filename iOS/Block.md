@@ -198,4 +198,8 @@ self.someBlock = ^(Type var) {
 }
 ```
 
-际
+#### strongSelf
+
+weakSelf的作用是为了防止强循环引用，产生不必要的内存泄漏问题。但是为什么在block内还要重新声明转成strongSelf
+
+因为在block内部的weakSelf可能为self或者为nil（比如当前界面正在加载网络数据，而此时用户关闭了该界面）这样在某些情况下代码会崩溃。所以为了让self不为nil，我们在block内部将weakSelf转成strongSelf。当block结束时，该strongSelf变量也会被自动释放。既比变了循环引用，又让self在block内部不为nil。
