@@ -58,3 +58,7 @@ mutex叫做“互斥锁”，等待锁的线程会处于休眠状态。
 解决的办法就是使用递归锁，PTHREAD_MUTEX_RECURSIVE。
 
 递归锁：允许同一个线程对同一把锁进行重复加锁。(同一个线程，同一把锁)
+
+自旋锁：atmoic、OSSpinLock、dispatch_semaphore_t
+
+互斥锁：pthread_mutex、@synchronized、NSLock、NSConditionLock、NSCondition、NSRecursiveLock
