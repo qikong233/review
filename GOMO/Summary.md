@@ -69,3 +69,11 @@ iOS中CommonCrypt中DES加密默认是CBC模式的加密，而ECB/PKCS5Padding�
 2. 将base64字符用utf8转成data
 
 3. 放到httpbody中
+
+# QR Reader 2020-5-29
+
+## OC Swift混编项目注意事项
+
+Swift模块会自动生成OC代码中间文件
+
+在 `Target -> Build Settings -> Objective-C Generated Interface Header Name` 中设置，默认是根据swift模块来命名， 默认`$(SWIFT_MODULE_NAME)-Swift.h`
