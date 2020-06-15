@@ -77,3 +77,58 @@ iOS中CommonCrypt中DES加密默认是CBC模式的加密，而ECB/PKCS5Padding�
 Swift模块会自动生成OC代码中间文件
 
 在 `Target -> Build Settings -> Objective-C Generated Interface Header Name` 中设置，默认是根据swift模块来命名， 默认`$(SWIFT_MODULE_NAME)-Swift.h`
+
+# 2020-6-3
+
+## iOS工程添加cpp文件以及opencv导入工程
+
+- 在混编工程中导入cpp文件，需要在PCH文件上加上
+
+```
+#ifdef __OBJC__
+...header import
+#endif
+```
+
+Xcode能编译.c .m .mm .cpp等后缀的文件，而pch文件是上述几种后缀文件共用的，但是在编译.c .cpp时，初夏难于法和OC不兼容的情况，导致编译出错
+
+- 导入opencv库
+
+报错，将源码中的`NO`改为`NO_EXPOSURE_COMPENSATOR`或`NO_EXPOSURE_COMPENSATOR = 0`
+
+`opencv2/highgui/cap_ios.h file not found`
+
+cap_ios.h在3.2.0版本移动到videoio文件夹下面，更改路径
+
+
+# 2020-6-12
+### OC BOOL取值
+
+NSDictionary 直接取 BOOL可能会出现错误。
+
+```
+NSDictionary dic = @{@"boolValue": @(NO)};
+// po dic  
+// {
+//   boolValue = 0
+// }
+BOOL wrong = dic[@"boolValue"]; -> YES
+NSNumber boolNum = dic[@"boolValue"];
+BOOL right = [boolNum boolValue]; -> NO
+```
+
+# 2020-6-15
+### 适配不同屏幕
+
+ios 屏幕中逻辑分辨率大致分为 `320x480 iphone se` `375x667 iphone6/7/8` `414x736 iphone 6+/7+/8+` `375x812 iphonex/xs/xr/xsmax`
+
+因为414 和 320屏幕宽度不同，设计大多用6/7/8屏幕尺寸设计，所以为了让界面看起来比例一样，可以按比例换算下开发单位points
+
+以375位标准的换算
+
+```
+func sizeFit375(size: Float) {
+	let temp = size / 375
+	return temp * Screen.main.bounds.width
+}
+```
