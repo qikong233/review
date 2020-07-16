@@ -132,3 +132,31 @@ func sizeFit375(size: Float) {
 	return temp * Screen.main.bounds.width
 }
 ```
+
+# 2020-6-24
+### APP回到前台通知
+
+`UIApplicationWillEnterForegroundNotification`
+iOS中检测APP回到前台一般使用通知策略，正常的情况下选择此通知，这条通知的接受实际是app讲到要进入前台
+
+`UIApplicationDidBecomeActiveNotification`
+此通知的接受实际是：app已经变为激活状态。 
+
+在程序启动的时候UIApplicationWillEnterForegroundNotification只有在UI到前台才会调用，启动app不算
+
+UIApplicationDidBecomeActiveNotification 回到前台+启动app
+
+UIApplicationWillEnterForegroundNotification 时机早于 UIApplicationDidBecomeActiveNotification
+
+# 2020-7-16
+### NSTimer
+
+NSTimer 两种初始化方式
+
+如果使用init的方式初始化，需要手动加入到当前的runloop当中。
+
+如果使用scheduledTimer，则默认加入到当前runloop的default模式当中。无需手动加入。
+
+如果当前runloop在执行耗时操作从而没有触发timer，那么会在下一个周期才会再次触发timer。
+
+使用timer需要防止内存泄露。需要调用timer的invalidate方法
